@@ -18,8 +18,9 @@ module Game =
         Height:    int
     }
 
-    let height game = game.Height
-    let width game  = game.Width
+    let height game    = game.Height
+    let width game     = game.Width
+    let dimension game = game.Width, game.Height
 
     let create init width height = {
         InitState = init
@@ -59,6 +60,17 @@ module Game =
             for x=1 to width game do
                 forCell x y (get x y game)
             forRow y
+
+    let iteri2 forCell forRow game1 game2 =
+        if dimension game1 <> dimension game2 then
+            invalidArg "game1|game2" "Both games must have same dimension"
+        
+        let width, height = dimension game1
+        for y=1 to height do
+            for x=1 to width do
+                forCell x y (get x y game1) (get x y game2)
+            forRow y
+        
 
     let neighboursAlive x y game =
         let stateToNum state =
