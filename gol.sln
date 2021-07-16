@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "console", "console\console.
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "libGol", "libGol\libGol.fsproj", "{B8B84CE0-3B6F-4C9A-B7A9-C4043BED9E11}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "canvas", "canvas\canvas.fsproj", "{3D29A8CC-B9D7-479A-A705-0C2D29C28854}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{B8B84CE0-3B6F-4C9A-B7A9-C4043BED9E11}.Release|x64.Build.0 = Release|Any CPU
 		{B8B84CE0-3B6F-4C9A-B7A9-C4043BED9E11}.Release|x86.ActiveCfg = Release|Any CPU
 		{B8B84CE0-3B6F-4C9A-B7A9-C4043BED9E11}.Release|x86.Build.0 = Release|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Debug|x64.Build.0 = Debug|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Release|x64.Build.0 = Release|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D29A8CC-B9D7-479A-A705-0C2D29C28854}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
