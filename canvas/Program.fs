@@ -1,23 +1,41 @@
 open libGol
+open Spectre.Console
 
-module View =
-    let asChar state =
-        match state with
-        | Game.Dead  -> "."
-        | Game.Alive -> "X"
-
-    let asString game =
-        let sb  = System.Text.StringBuilder()
-        Game.iteri 
-            (fun x y state -> ignore (sb.Append (asChar state)))
-            (fun y -> ignore (sb.Append '\n'))
-            game
-        sb.ToString()
+module Canvas =
+    let iteri doX doY (canvas:Canvas) =
+        for y=0 to canvas.Height-1 do
+            for x=0 to canvas.Width-1 do
+                ignore (doX x y canvas)
+            ignore (doY y canvas)
+    
+    let setAll color canvas =
+        iteri (fun x y canvas-> canvas.SetPixel(x,y,color)) (fun _ _ -> ()) canvas
+    
+    let fromGame bgColor aliveColor game =
+        let height = Game.rows game
+        let width  = Game.cols game
+        let canvas = Canvas(width,height)
+        setAll bgColor canvas
+        Game.iteri (fun x y state ->
+            let color = 
+                match state with
+                | Game.Dead  -> bgColor
+                | Game.Alive -> aliveColor
+            ignore (canvas.SetPixel(x-1,y-1,color))
+        ) ignore game
+        canvas
 
 // App Helper Functions
-let printAt col row (text:string) =
-    System.Console.SetCursorPosition(col,row)
+let position x y =
+    System.Console.SetCursorPosition(x,y)
+
+let printText x y (text:string) =
+    position x y
     System.Console.Write(text)
+
+let printGame x y game =
+    position x y
+    AnsiConsole.Render(Canvas.fromGame Color.White Color.Blue game)
 
 let sleep (ms:int) =
     System.Threading.Thread.Sleep ms
@@ -58,17 +76,17 @@ let main argv =
 
     let sw = System.Diagnostics.Stopwatch.StartNew();
 
-    printAt 0 0 "Phase: 1"
-    printAt 0 1 (View.asString init)
-
+    printText 0 0 "Phase: 1"
+    printGame 0 1 init
+    
     sleep sleepTime
 
     let rec loop (phase:int) prev current =
         if   prev = current
         then ()
         else
-            printAt 0 0 (System.String.Format("Phase: {0}", phase))
-            printAt 0 1 (View.asString current)
+            printText 0 0 (System.String.Format("Phase: {0}", phase))
+            printGame 0 1 current
             sleep sleepTime
             loop (phase+1) current (Game.nextState current)
 

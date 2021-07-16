@@ -14,4 +14,8 @@
     <ProjectReference Include="..\libGol\libGol.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.40.0" />
+  </ItemGroup>
+
 </Project>
