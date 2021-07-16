@@ -8,24 +8,24 @@ module Game =
 
     type Field = State[,]
 
-    let createField init col row : Field =
-        Array2D.create row col init
+    let createField init width height : Field =
+        Array2D.create width height init
 
     type T = {
         InitState: State
         Field:     Field
-        Rows:      int
-        Columns:   int
+        Width:     int
+        Height:    int
     }
 
-    let rows game = game.Rows
-    let cols game = game.Columns
+    let height game = game.Height
+    let width game  = game.Width
 
-    let create init cols rows = {
+    let create init width height = {
         InitState = init
-        Rows      = rows
-        Columns   = cols
-        Field     = createField init (cols+2) (rows+2)
+        Width     = width
+        Height    = height
+        Field     = createField init (width+2) (height+2)
     }
     
     let fromSeq outOfRange seqOfSeq =
@@ -35,7 +35,7 @@ module Game =
         // Copy LoL starting at pos 1,1
         seqOfSeq |> Seq.iteri (fun y ys ->
             ys |> Seq.iteri (fun x state ->
-                game.Field.[y+1,x+1] <- state
+                game.Field.[x+1,y+1] <- state
             )
         )
         game
@@ -51,12 +51,12 @@ module Game =
         |> Array.filter (fun xs -> Array.length xs > 0)
         |> fromSeq outOfRange
    
-    let get x y game =
-        game.Field.[y,x]
+    let inline get x y game =
+        game.Field.[x,y]
     
     let iteri forCell forRow game =
-        for y=1 to rows game do
-            for x=1 to cols game do
+        for y=1 to height game do
+            for x=1 to width game do
                 forCell x y (get x y game)
             forRow y
 
@@ -76,10 +76,10 @@ module Game =
         + stateToNum (get (x+1) (y+1) game)
     
     let map f game =
-        let newGame = create game.InitState game.Columns game.Rows
-        for y=1 to rows game do
-            for x=1 to cols game do
-                newGame.Field.[y,x] <- f (get x y game) (neighboursAlive x y game)
+        let newGame = create game.InitState game.Width game.Height
+        for y=1 to height game do
+            for x=1 to width game do
+                newGame.Field.[x,y] <- f (get x y game) (neighboursAlive x y game)
         newGame
 
     let nextState game =

@@ -12,8 +12,8 @@ module Canvas =
         iteri (fun x y canvas-> canvas.SetPixel(x,y,color)) (fun _ _ -> ()) canvas
     
     let fromGame bgColor aliveColor game =
-        let height = Game.rows game
-        let width  = Game.cols game
+        let height = Game.height game
+        let width  = Game.width game
         let canvas = Canvas(width,height)
         setAll bgColor canvas
         Game.iteri (fun x y state ->
