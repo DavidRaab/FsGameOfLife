@@ -31,7 +31,7 @@ module Canvas =
         canvas
     
     let fromGame colors game =
-        let canvas = createCanvas Color.White (Game.dimension game)
+        let canvas = createCanvas colors.Dead (Game.dimension game)
         Game.iteri (fun x y state ->
             let color = 
                 match state with
