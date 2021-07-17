@@ -4,7 +4,14 @@ module Game =
     [<Struct>]
     type State =
         | Dead
+        | Died
         | Alive
+        | Born
+    
+    let inline (|IsAlive|IsDead|) state =
+        match state with
+        | Dead  | Died -> IsDead
+        | Alive | Born -> IsAlive
 
     type Field = State[,]
 
@@ -77,8 +84,8 @@ module Game =
     let neighboursAlive x y game =
         let inline stateToNum state =
             match state with
-            | Dead  -> 0
-            | Alive -> 1
+            | IsDead  _ -> 0
+            | IsAlive _ -> 1
 
         stateToNum   (get (x-1) (y-1) game)
         + stateToNum (get (x)   (y-1) game)
@@ -99,8 +106,9 @@ module Game =
     let nextState game =
         map (fun state alives ->
             match state,alives with
-            | Dead, 3 -> Alive
-            | Alive,2 -> Alive
-            | Alive,3 -> Alive
-            | _       -> Dead
+            | IsDead,3  -> Born
+            | IsDead,_  -> Dead
+            | IsAlive,2 -> Alive
+            | IsAlive,3 -> Alive
+            | IsAlive,_ -> Died
         ) game

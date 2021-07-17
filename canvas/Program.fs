@@ -2,6 +2,20 @@ open libGol
 open Spectre.Console
 
 module Canvas =
+    type Colors = {
+        Alive: Color
+        Born:  Color
+        Dead:  Color
+        Died:  Color
+    }
+
+    let defaultColors = {
+        Alive = Color.Blue
+        Born  = Color.Green
+        Dead  = Color.White
+        Died  = Color.Red
+    }
+
     let iteri doX doY (canvas:Canvas) =
         for y=0 to canvas.Height-1 do
             for x=0 to canvas.Width-1 do
@@ -9,36 +23,25 @@ module Canvas =
             ignore (doY y canvas)
     
     let setAll color canvas =
-        iteri (fun x y canvas-> canvas.SetPixel(x,y,color)) (fun _ _ -> ()) canvas
+        iteri (fun x y canvas -> canvas.SetPixel(x,y,color)) (fun _ _ -> ()) canvas
     
-    let fromGame bgColor aliveColor game =
-        let canvas = Canvas (Game.dimension game)
-        setAll bgColor canvas
+    let createCanvas initColor dimension =
+        let canvas = Canvas dimension
+        setAll initColor canvas
+        canvas
+    
+    let fromGame colors game =
+        let canvas = createCanvas Color.White (Game.dimension game)
         Game.iteri (fun x y state ->
             let color = 
                 match state with
-                | Game.Dead  -> bgColor
-                | Game.Alive -> aliveColor
+                | Game.Dead  -> colors.Dead
+                | Game.Died  -> colors.Died
+                | Game.Alive -> colors.Alive
+                | Game.Born  -> colors.Born
             ignore (canvas.SetPixel(x,y,color))
         ) ignore game
         canvas
-    
-    let fromGame2 game1 game2 =
-        let canvas = Canvas (Game.dimension game1)
-        Game.iteri2
-            (fun x y gs1 gs2 ->
-                let color = 
-                    match gs1,gs2 with
-                    | Game.Dead,Game.Dead   -> Color.White
-                    | Game.Dead,Game.Alive  -> Color.Green
-                    | Game.Alive,Game.Alive -> Color.Blue
-                    | Game.Alive,Game.Dead  -> Color.Red
-                canvas.SetPixel(x,y,color) |> ignore)
-            ignore
-            game1
-            game2
-        canvas
-
 
 // App Helper Functions
 let position x y =
@@ -92,7 +95,7 @@ let main argv =
     let sw = System.Diagnostics.Stopwatch.StartNew();
 
     printText   0 0 "Phase: 1"
-    printCanvas 0 1 (Canvas.fromGame Color.White Color.Blue init)
+    printCanvas 0 1 (Canvas.fromGame Canvas.defaultColors init)
     
     sleep sleepTime
 
@@ -101,7 +104,7 @@ let main argv =
         then ()
         else
             printText   0 0 (System.String.Format("Phase: {0}", phase))
-            printCanvas 0 1 (Canvas.fromGame2 prev current)
+            printCanvas 0 1 (Canvas.fromGame Canvas.defaultColors current)
             sleep sleepTime
             loop (phase+1) current (Game.nextState current)
 
