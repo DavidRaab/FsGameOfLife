@@ -19,21 +19,21 @@ module Canvas =
                 match state with
                 | Game.Dead  -> bgColor
                 | Game.Alive -> aliveColor
-            ignore (canvas.SetPixel(x-1,y-1,color))
+            ignore (canvas.SetPixel(x,y,color))
         ) ignore game
         canvas
     
     let fromGame2 game1 game2 =
         let canvas = Canvas (Game.dimension game1)
         Game.iteri2
-            (fun x y gs1 gs2 -> 
+            (fun x y gs1 gs2 ->
                 let color = 
                     match gs1,gs2 with
                     | Game.Dead,Game.Dead   -> Color.White
                     | Game.Dead,Game.Alive  -> Color.Green
                     | Game.Alive,Game.Alive -> Color.Blue
                     | Game.Alive,Game.Dead  -> Color.Red
-                canvas.SetPixel(x-1,y-1,color) |> ignore)
+                canvas.SetPixel(x,y,color) |> ignore)
             ignore
             game1
             game2
