@@ -79,14 +79,13 @@ module Game =
             for x=0 to width - 1 do
                 forCell x y (get x y game1) (get x y game2)
             forRow y
-        
-
-    let neighboursAlive x y game =
-        let inline stateToNum state =
+    
+    let inline stateToNum state =
             match state with
             | IsDead  _ -> 0
             | IsAlive _ -> 1
 
+    let neighboursAlive x y game =
         stateToNum   (get (x-1) (y-1) game)
         + stateToNum (get (x)   (y-1) game)
         + stateToNum (get (x+1) (y-1) game)
