@@ -3,8 +3,8 @@ open libGol
 module View =
     let asChar state =
         match state with
-        | Game.Dead  -> "."
-        | Game.Alive -> "X"
+        | Game.IsDead  -> "."
+        | Game.IsAlive -> "X"
 
     let asString game =
         let sb  = System.Text.StringBuilder()
