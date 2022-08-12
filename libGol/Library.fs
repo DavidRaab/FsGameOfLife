@@ -1,4 +1,4 @@
-﻿namespace libGol
+namespace libGol
 
 module Game =
     [<Struct>]
@@ -80,7 +80,7 @@ module Game =
                 forCell x y (get x y game1) (get x y game2)
             forRow y
     
-    let inline stateToNum state =
+    let inline private stateToNum state =
             match state with
             | IsDead  _ -> 0
             | IsAlive _ -> 1
